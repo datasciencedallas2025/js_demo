@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dynamic Bullet Gauge</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="FoodGraphs.js" defer></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    #dropdown-wrapper {
+      margin-bottom: 20px;
+    }
+    .center-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .chart-box {
+      max-width: 800px;
+      width: 90vw;
+    }
+    .chart-label {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2><strong>Select Cooking Method:</strong></h2>
+  <div id="dropdown-wrapper">
+    <select id="chart-filter">
+      <option disabled selected value>Loading...</option>
+    </select>
+  </div>
+
+  <div class="center-container">
+    <div>
+      <div id="gauge-title" class="chart-label"></div>
+      <div id="gauge" class="chart-box" style="height:400px;"></div>
+    </div>
+  </div>
+
+  <div class="center-container">
+    <div>
+      <div id="bullet-title" class="chart-label"></div>
+      <div id="myDiv" class="chart-box" style="height:250px;"></div>
+    </div>
+  </div>
+
+</body>
+</html>

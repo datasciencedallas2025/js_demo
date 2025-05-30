@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Bullet Gauge</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+<h2>Select Cooking Method:</h2>
+<select id="methodDropdown" onchange="updateGauge()"></select>
+<div id="gauge" style="width:600px;height:400px;"></div>
+
+<script>
+  let methods = [];
+
+  // Load JSON file dynamically
+  fetch('prices_and_methods.json')
+    .then(response => response.json())
+    .then(data => {
+      methods = data;
+
+      // Populate dropdown
+      const dropdown = document.getElementById("methodDropdown");
+      methods.forEach(m => {
+        const option = document.createElement("option");
+        option.value = m.Method;
+        option.textContent = m.Method;
+        dropdown.appendChild(option);
+      });
+
+      // Render initial chart
+      renderGauge(methods[0]);
+    });
+
+  // Render chart with Plotly
+  function renderGauge(methodObj) {
+    const data = [
+      {
+        type: "indicator",
+        mode: "number+gauge",
+        value: methodObj.avg_price,
+        title: { text: `Avg Price: ${methodObj.Method}`, font: { size: 24 } },
+        gauge: {
+          shape: "bullet",
+          axis: { range: [0, 6] },
+          bar: { color: "orange" },
+          steps: [
+            { range: [0, 2], color: "#d3f2e1" },
+            { range: [2, 4], color: "#9be7c4" },
+            { range: [4, 6], color: "#52b788" }
+          ],
+          threshold: {
+            line: { color: "red", width: 2 },
+            thickness: 0.75,
+            value: methodObj.avg_price
+          }
+        },
+        domain: { x: [0, 1], y: [0, 1] }
+      }
+    ];
+
+    const layout = { margin: { t: 40, r: 25, l: 25, b: 40 } };
+    Plotly.react("gauge", data, layout);
+  }
+
+  // Update chart when dropdown changes
+  function updateGauge() {
+    const selected = document.getElementById("methodDropdown").value;
+    const methodObj = methods.find(m => m.Method === selected);
+    if (methodObj) {
+      renderGauge(methodObj);
+    }
+  }
+</script>
+
+</body>
+</html>

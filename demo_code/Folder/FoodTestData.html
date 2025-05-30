@@ -1,0 +1,20 @@
+<head>
+	<!-- Load plotly.js into the DOM -->
+	<script src='https://cdn.plot.ly/plotly-3.0.1.min.js'></script>
+	<script src="FoodGraph.js"></script>
+</head>
+
+<body>
+	<div class="section">
+  	  <h1>Data Visualizations</h1>
+  	  <div class="chart-controls">
+   	     <label for="chart-filter">Select Data:</label>
+    	    <select id="chart-filter">
+     	       <option value="Method">Cooking Method</option>
+        	</select>
+    	</div>
+
+    	<div id="chart-container">Loading charts...</div>
+	</div>
+	<div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+</body>

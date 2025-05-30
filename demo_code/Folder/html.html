@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bullet Gauge with Dropdown</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+<h2>Select Cooking Method:</h2>
+<select id="methodDropdown" onchange="updateGauge()"></select>
+<div id="gauge" style="width:600px;height:400px;"></div>
+
+<script>
+  // JSON data
+  const methods = [
+    { "Method": "Assembled", "avg_price": 2.53 },
+    { "Method": "Baked", "avg_price": 2.5 },
+    { "Method": "Boiled", "avg_price": 2.8 },
+    { "Method": "Boiled/Grilled", "avg_price": 2.71 },
+    { "Method": "Fried", "avg_price": 2.66 },
+    { "Method": "Grilled", "avg_price": 2.62 },
+    { "Method": "Pan-Fried", "avg_price": 5.0 },
+    { "Method": "Stewed", "avg_price": 3.5 },
+    { "Method": "Stir-Fried", "avg_price": 2.72 }
+  ];
+
+  // Populate dropdown
+  const dropdown = document.getElementById("methodDropdown");
+  methods.forEach(m => {
+    const option = document.createElement("option");
+    option.value = m.Method;
+    option.textContent = m.Method;
+    dropdown.appendChild(option);
+  });
+
+  // Initial chart render
+  function renderGauge(methodObj) {
+    const data = [
+      {
+        type: "indicator",
+        mode: "number+gauge",
+        value: methodObj.avg_price,
+        title: { text: `Avg Price: ${methodObj.Method}`, font: { size: 24 } },
+        gauge: {
+          shape: "bullet",
+          axis: { range: [0, 6] },
+          bar: { color: "orange" },
+          steps: [
+            { range: [0, 2], color: "#d3f2e1" },
+            { range: [2, 4], color: "#9be7c4" },
+            { range: [4, 6], color: "#52b788" }
+          ],
+          threshold: {
+            line: { color: "red", width: 2 },
+            thickness: 0.75,
+            value: methodObj.avg_price
+          }
+        },
+        domain: { x: [0, 1], y: [0, 1] }
+      }
+    ];
+
+    const layout = { margin: { t: 40, r: 25, l: 25, b: 40 } };
+    Plotly.react("gauge", data, layout);
+  }
+
+  // Update chart on dropdown change
+  function updateGauge() {
+    const selectedMethod = dropdown.value;
+    const methodObj = methods.find(m => m.Method === selectedMethod);
+    renderGauge(methodObj);
+  }
+
+  // Render initial chart for first item
+  renderGauge(methods[0]);
+
+</script>
+
+</body>
+</html>

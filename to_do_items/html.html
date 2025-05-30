@@ -1,0 +1,24 @@
+<div>
+  <label for="dropdown">Choose a category:</label>
+  <select id="dropdown" onchange="updateChart()">
+    <option value=1>Group C</option>
+    <option value=2>Group D</option>
+  </select>
+</div>
+
+<div id="abc"></div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  const data = {
+    1: [{ x: [1, 2, 3], y: [10, 15, 13], type: 'bar' }],
+    2: [{ x: [1, 2, 3], y: [5, 8, 12], type: 'bar' }]
+  };
+
+  Plotly.newPlot("abc", data.A);
+
+  function updateChart() {
+    const value = document.getElementById("dropdown").value;
+    Plotly.react("abc", data[value]);
+  }
+</script>
